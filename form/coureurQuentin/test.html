@@ -1,0 +1,34 @@
+<script>
+function deplacer_hautbas(sens)
+  {
+    var listemax = dispo.length - 2;
+    var listesel = dispo.selectedIndex;
+    if( ( listesel < 0 ) || ( listesel < 1 && sens == -1 ) || ( listesel > listemax && sens == 1 ) )
+    {
+      return false;
+    }
+    tmpopt = new Option( dispo.options[listesel+sens].text, dispo.options[listesel+sens].value );
+    dispo.options[listesel+sens].text = dispo.options[listesel].text;
+    dispo.options[listesel+sens].value = dispo.options[listesel].value;
+    dispo.options[listesel+sens].selected = true;
+    dispo.options[listesel].text = tmpopt.text;
+    dispo.options[listesel].value = tmpopt.value;
+    dispo.options[listesel].selected = false;
+    return true;
+}
+</script>
+<select name="dispo[]" id="dispo" style="width: 210px;" size="16" multiple="multiple" OnDblClick="javascript: deplacer( this.form.dispo, this.form.choix );">
+    <option value="A">A<br /></option>
+    <option value="Z">Z<br /></option>
+    <option value="E">E<br /></option>
+    <option value="R">R<br /></option>
+    <option value="T">T<br /></option>
+    <option value="Y">Y<br /></option>
+    <option value="U">U<br /></option>
+    <option value="I">I<br /></option>
+    <option value="O">O<br /></option>
+    <option value="P">P<br /></option>
+</select>
+	  
+	  <input type="button" value="Descendre" OnClick="javascript: deplacer_hautbas(1);" />
+	  <input type="button" value="Monter" OnClick="javascript: deplacer_hautbas(-1);" />

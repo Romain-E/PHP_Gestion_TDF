@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <div id="demo">
+    <title>Modifier un coureur</title>
+
+    <script type="text/javascript">
+
+        function equipe(actual_num_eq){
+
+            var xhttp = new XMLHttpRequest();
+            //la fonction se lance quand la requete xml est fini et OK
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("demo").innerHTML =
+                        this.responseText;
+                }
+            };
+            xhttp.open("POST", "consulter_equipe.php", true);
+            xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhttp.send("actual_num_eq="+actual_num_eq);
+
+        }
+    </script>
+
+</head>
+
+<body>
+
+
+<header >
+    <h3 class="page-title" style="text-align:center;">Détails du coureur <?php //echo $_POST['actual_num_cour_m']?></h3>
+</header>
+
+
+
+

@@ -1,0 +1,17 @@
+select rownum as classement, n_epreuve,  n_coureur,nom, prenom, nom_sponsor, TEMPS_TOTAL 
+from
+		 (
+		   select to_char(n_coureur) as n_coureur, n_epreuve, cou.nom, prenom, spo.nom as nom_sponsor, sum(total_seconde) as temps_total
+		   from tdf_coureur cou
+		   join tdf_temps tem using (n_coureur)
+		   join tdf_parti_coureur using (n_coureur, annee)
+       join tdf_sponsor spo using (n_equipe, n_sponsor)
+		   left join tdf_temps_difference using (n_coureur, annee)
+		   where (n_coureur, annee) not in
+		   (
+		 	select n_coureur, annee from tdf_abandon
+		   )
+		   and annee='2018' and valide = 'O' and n_epreuve = 19
+		   group by annee, n_coureur, n_epreuve, cou.nom, prenom,spo.nom, difference
+       order by TEMPS_TOTAL
+  );

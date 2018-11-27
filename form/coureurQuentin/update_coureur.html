@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <title>Modifier un coureur</title>
+
+
+</head>
+
+<body>
+
+
+<header >
+    <h3 class="page-title" style="text-align:center;">Modifier le coureur <?php echo $_POST['actual_num_cour_m']?></h3>
+</header>
+
+<form action="update_coureur.php" method="post" enctype="application/x-www-form-urlencoded">
+
+    <label>Nom : </label>
+    <input type="text" name="cou_nom" value="<?php 
+		$req_nom = "select NOM from TDF_COUREUR where N_COUREUR ='".$_POST['actual_num_cour_m']. "'";
+		$cur_nom = PreparerRequeteOCI($conn, $req_nom);
+		$res_nom = ExecuterRequeteOCI($cur_nom);
+		$nbLignes_nom = LireDonneesOCI1($cur_nom, $tab_nom);
+		
+		echo $tab_nom[0]['NOM'];
+		?>">
+    <br><br>
+    <label>Prenom : </label>
+    <input type="text" name="cou_pre" value="<?php  
+		$req_pre = "select PRENOM from TDF_COUREUR where N_COUREUR ='".$_POST['actual_num_cour_m']. "'";
+		$cur_pre = PreparerRequeteOCI($conn, $req_pre);
+		$res_pre = ExecuterRequeteOCI($cur_pre);
+		$nbLignes_pre = LireDonneesOCI1($cur_pre, $tab_pre);
+		
+		echo $tab_pre[0]['PRENOM'];
+		?>">
+    <br><br>
+    <label>Année de naissance : </label>
+    <input type="text" name="cou_nai" value="<?php  
+		$req_nai = "select ANNEE_NAISSANCE from TDF_COUREUR where N_COUREUR ='".$_POST['actual_num_cour_m']. "'";
+		$cur_nai = PreparerRequeteOCI($conn, $req_nai);
+		$res_nai = ExecuterRequeteOCI($cur_nai);
+		$nbLignes_nai = LireDonneesOCI1($cur_nai, $tab_nai);
+		
+		echo $tab_nai[0]['ANNEE_NAISSANCE'];
+		?>">
+    <br><br>
+    <label>Année de 1ère participation : </label>
+    <input type="text" name="cou_apr" value="<?php  
+		$req_pre = "select ANNEE_PREM from TDF_COUREUR where N_COUREUR ='".$_POST['actual_num_cour_m']. "'";
+		$cur_pre = PreparerRequeteOCI($conn, $req_pre);
+		$res_pre = ExecuterRequeteOCI($cur_pre);
+		$nbLignes_pre = LireDonneesOCI1($cur_pre, $tab_pre);
+		
+		echo $tab_pre[0]['ANNEE_PREM'];
+		?>">
+    <br><br>
+	<label>Nationalité : </label>
+    <?php  
+		$req_nat = "SELECT pays.CODE_CIO as NOM_PAYS
+					FROM TDF_COUREUR cou
+					JOIN TDF_APP_NATION nat ON nat.N_COUREUR=cou.N_COUREUR
+					JOIN TDF_NATION pays ON pays.CODE_CIO=nat.CODE_CIO
+					WHERE cou.N_COUREUR =".$_POST['actual_num_cour_m'];
+		$cur_nat = PreparerRequeteOCI($conn, $req_nat);
+		$res_nat = ExecuterRequeteOCI($cur_nat);
+		$nbLignes_nat = LireDonneesOCI1($cur_nat, $tab_nat);
+		
+		//echo $tab_nat[0]['NOM_PAYS'];
+		
+		$req = 'select CODE_CIO, NOM from TDF_NATION order by NOM';
+		$cur = PreparerRequeteOCI($conn, $req);
+		$res = ExecuterRequeteOCI($cur);
+		$nbLignes = LireDonneesOCI1($cur, $tab);
+
+		echo '<select name="cou_nat">';
+		
+        for ($i=0;$i<$nbLignes;$i++) {
+			echo '<option value="'.$tab[$i]["CODE_CIO"].'"';
+			if(isset($tab_nat[0]['NOM_PAYS']) && $tab_nat[0]['NOM_PAYS'] == $tab[$i]["CODE_CIO"])
+				echo 'selected';
+			echo '>'.$tab[$i]['NOM'].'</option>';
+        }
+		
+		echo '</select>';
+		
+		?>
+    <br><br>
+	<input type="hidden" value="<?php echo $_POST['actual_num_cour_m'];?>" name="actual_num_cour_m">
+    <input type="submit" value="Modifier ce coureur" name="MO">
+	<input type="button" value="Annuler" onClick="javascript:document.location.href='consulter_coureur.php'">
+</form>
+
+</body>
+</html>

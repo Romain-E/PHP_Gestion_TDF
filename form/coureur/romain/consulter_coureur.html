@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+
+  <title>Consulter un coureur</title>
+
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript">
+
+  //fonction pour actualiser la recherche des couruers en fonction du nom
+  $(document).ready(function(){
+    $('.search-box input[type="text"]').on("keyup input", function(){
+      var inputVal = $(this).val();
+      var resultDropdown = $(this).siblings(".result");
+      if(inputVal.length){
+        $.get("consulter_coureur.php", {term: inputVal}).done(function(data){
+          // Affiche la donnée retournée dans le naviguateur
+          resultDropdown.html(data);
+        });
+      } else{
+        resultDropdown.empty();
+      }
+    });
+
+    // Set search input value on click of result item
+
+    $(document).on("click", ".result p", function(){
+      $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
+      $(this).parent(".result").empty();
+    });
+	
+	
+	});
+
+
+
+//fonction pour supprimer un coureur s'il n'a jamais participé
+
+
+/*function init()
+{
+document.getElementByID("monTableau").onClick = trouverCoordonnees;
+}
+
+function trouverCoordonnees(event)
+{
+event = event || window.event;
+var ncell = event.target || event.srcElement;
+var colid = nCell.cellIndex+1;
+var rowid = nCell.parentNode;
+while(rowid.tagName!='TR') rowid = rowid.parentNode;
+rowid = rowid.rowIndex;
+alert(rowid + ' - ' + colid);
+}
+
+window.onload = init;
+*/
+
+</script>
+
+</head>
+
+<body>
+
+
+  <header >
+    <h3 class="page-title" style="text-align:center;">Consulter un coureur</h3>
+  </header>
+
+  <form action="" method="post" name="consulter_coureur">
+
+    <div class="search-box">
+
+      <label>Nom : </label>
+      <input type="text" autocomplete="off" placeholder="Saisir"><br><br>
+
+      <div class="result">
+
+      </div>
+    </div>
+
+  </form>
+
+</body>
+</html>

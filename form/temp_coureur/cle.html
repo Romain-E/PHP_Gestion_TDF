@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <title>Consulter une clé</title>
+
+    <!-- font -->
+    <link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+
+    <!-- css -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-theme.css" media="screen" >
+    <link rel="stylesheet" href="../../css/main_form.css">
+
+</head>
+
+<body class="home" style="background-color:#D9D9D7">
+
+<article class="col-xs-12">
+    <header class="page-header">
+        <h3 class="page-title" style="text-align:center;">Consulter une clé</h3>
+    </header>
+
+    <form action="" method="post">
+        <div class="form-group row">
+            <div class="col-xs-1">
+                <!-- space -->
+            </div>
+            <div class="col-xs-5 text-center">
+                <label>Numéro de clé</label>
+                <input class="form-control" type="text" name="cle_num" value="<?php verifierText("cle_num"); ?>">
+            </div>
+            <div class="col-xs-5 text-center">
+                <label>Rangement</label>
+                <input class="form-control" type="text" name="cle_ran" value="<?php verifierText("cle_ran"); ?>">
+            </div>
+            <div class="col-xs-1">
+                <!-- space -->
+            </div>
+        </div>
+
+        <br>
+
+        <div class="form-group row">
+            <div class="col-xs-1">
+                <!-- space -->
+            </div>
+            <div class="col-xs-5 text-center">
+                <label>Quantité</label>
+                <input class="form-control" type="text" name="cle_qua" value="<?php verifierText("cle_qua"); ?>">
+            </div>
+            <div class="col-xs-5 text-center">
+                <label>Remise(s)</label>
+                <input class="form-control" type="text" name="cle_rem" value="<?php verifierText("cle_rem"); ?>">
+            </div>
+            <div class="col-xs-1">
+                <!-- space -->
+            </div>
+        </div>
+
+        <br>
+
+        <div class="form-group row">
+            <div class="col-xs-1">
+                <!-- space -->
+            </div>
+            <div class="col-xs-5 text-center">
+                <label>Type</label>
+                <input class="form-control" type="text" name="cle_typ" value="<?php verifierText("cle_typ"); ?>">
+            </div>
+            <div class="col-xs-5 text-center">
+                <label>Libellé</label>
+                <input class="form-control" type="text" name="cle_lib" value="<?php verifierText("cle_lib"); ?>">
+            </div>
+            <div class="col-xs-1">
+                <!-- space -->
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-xs-1 text-center">
+                <!-- space -->
+            </div>
+            <div class="col-xs-10 text-center">
+                <input class="btn btn-xs btn-info" type="submit" value="Créer cette clé">
+            </div>
+            <div class="col-xs-1 text-center">
+                <!-- space -->
+            </div>
+        </div>
+    </form>
+
+    <br>
+
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <input class="btn btn-danger" onclick="javascript:window.close()" type="submit" value="Fermer">
+        </div>
+    </div><br><br>
+</article>
+
+
+<!-- JavaScript placé en bas de page pour améliorer la vitesse de chargement -->
+<script src="assets/js/script.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<div id = "demo">
+  <title>Consulter un coureur</title>
+
+  <!--<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>-->
+  <script type="text/javascript">
+
+  function suppr(actual_num_cour){
+
+    var xhttp = new XMLHttpRequest();
+    //la fonction se lance quand la requete xml est finie et OK
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("demo").innerHTML =
+        this.responseText;
+      }
+    };
+    xhttp.open("POST", "consulter_coureur.php", true);
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhttp.send("actual_num_cour="+actual_num_cour);
+
+  }
+
+  function modif(actual_num_cour_m){
+
+    var xhttp = new XMLHttpRequest();
+    //la fonction se lance quand la requete xml est finie et OK
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("demo").innerHTML =
+        this.responseText;
+      }
+    };
+    xhttp.open("POST", "update_coureur.php", true);
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhttp.send("actual_num_cour_m="+actual_num_cour_m);
+
+  }
+
+  function consult(actual_num_cour_cons){
+
+    var xhttp = new XMLHttpRequest();
+    //la fonction se lance quand la requete xml est finie et OK
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("demo").innerHTML =
+        this.responseText;
+      }
+    };
+    xhttp.open("POST", "details_coureur.php", true);
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhttp.send("num_cour_actuel="+actual_num_cour_cons);
+
+  }
+
+  </script>
+</div>
+
+</head>
+<?php include ("../php_util/verif_form.php");?>
+<body style="background-color:#d8d4d4;">
+  <?php include('/users/21700957/www-dev/etudiant/TravauxSecretDEtat/Projet/form/inc/navbar.php'); ?>
+  <header >
+    <h2 class="page-title" style="text-align:center;"><b>CONSULTER UN COUREUR</b></h2>
+  </header>
+
+  <form action="consulter_coureur.php" method="post" enctype="application/x-www-form-urlencoded">
+    <h4 style="text-align: center;">Nom recherché : </h4>
+    <center><input type="text" name="cou_nom_recherche" value="<?php verifierText("cou_nom_recherche"); ?>" placeholder="Saisir">
+
+      <input type="submit" value="Chercher"></center>
+    </form>
+
+    <form action="consulter_coureur.php" method="post" enctype="application/x-www-form-urlencoded">
+      <h4 style="text-align: center;">Trier par :</h4>
+
+      <select name="triage[]" id="triage" size="5" multiple="multiple" OnDblClick="javascript: deplacer( this.form.dispo, this.form.choix );">
+        <!--<option value="numero">Numero<br/></option>-->
+        <option value="nom">Nom<br /></option>
+        <option value="prenom">Prénom<br /></option>
+        <option value="naissance">Naissance<br /></option>
+        <option value="premierepart">Première participation<br /></option>
+        <option value="nationalite">Nationalité<br /></option>
+      </select>
+      <input type="button" value="↓" OnClick="javascript: deplacer_hautbas(1);" />
+      <input type="button" value="↑" OnClick="javascript: deplacer_hautbas(-1);" />
+
+      <script>
+      function deplacer_hautbas(sens)
+      {
+        var listemax = triage.length - 2;
+        var listesel = triage.selectedIndex;
+        if( ( listesel < 0 ) || ( listesel < 1 && sens == -1 ) || ( listesel > listemax && sens == 1 ) )
+        {
+          return false;
+        }
+        tmpopt = new Option( triage.options[listesel+sens].text, triage.options[listesel+sens].value );
+        triage.options[listesel+sens].text = triage.options[listesel].text;
+        triage.options[listesel+sens].value = triage.options[listesel].value;
+        triage.options[listesel+sens].selected = true;
+        triage.options[listesel].text = tmpopt.text;
+        triage.options[listesel].value = tmpopt.value;
+        triage.options[listesel].selected = false;
+        return true;
+      }
+
+      function selectAll() {
+        e = document.getElementById("triage");
+
+        for (var i = 0; i < e.options.length; i++)
+        {
+          e.options[i].selected = true;
+        }
+      }
+    </script>
+
+	<center>
+    <table border="8">
+      <tr>
+        <!--
+		<td width="16%">
+          <label><b>Numéro de coureur : </b></label><br>
+          <input id="cou_num_cro" type="radio" name="cou_num_tri" value="croissant" <?php cocherRadio("cou_num_tri","croissant"); ?>><label for="cou_num_cro"> Croissant</label><br>
+          <input id="cou_num_dec" type="radio" name="cou_num_tri" value="decroissant" <?php cocherRadio("cou_num_tri","decroissant"); ?>><label for="cou_num_dec"> Décroissant</label><br>
+          <input id="cou_num_npt" type="radio" name="cou_num_tri" value="null" <?php cocherRadio("cou_num_tri","null"); ?> id="npt"><label for="cou_num_npt"> Ne pas trier</label>
+        </td>
+		-->
+        <td width="20%">
+          <label><b>Nom de coureur : </b></label><br>
+          <input id="cou_nom_cro" type="radio" name="cou_nom_tri" value="croissant" <?php cocherRadio("cou_nom_tri","croissant"); ?>><label for="cou_nom_cro"> Croissant</label><br>
+          <input id="cou_nom_dec" type="radio" name="cou_nom_tri" value="decroissant" <?php cocherRadio("cou_nom_tri","decroissant"); ?>><label for="cou_nom_dec"> Décroissant</label><br>
+          <input id="cou_nom_npt" type="radio" name="cou_nom_tri" value="null" <?php cocherRadio("cou_nom_tri","null"); ?>><label for="cou_nom_npt"> Ne pas trier</label>
+        </td>
+        <td width="20%">
+          <label><b>Prenom de coureur : </b></label><br>
+          <input id="cou_pre_cro" type="radio" name="cou_pre_tri" value="croissant" <?php cocherRadio("cou_pre_tri","croissant"); ?>><label for="cou_pre_cro"> Croissant</label><br>
+          <input id="cou_pre_dec" type="radio" name="cou_pre_tri" value="decroissant" <?php cocherRadio("cou_pre_tri","decroissant"); ?>><label for="cou_pre_dec"> Décroissant</label><br>
+          <input id="cou_pre_npt" type="radio" name="cou_pre_tri" value="null" <?php cocherRadio("cou_pre_tri","null"); ?>><label for="cou_pre_npt"> Ne pas trier</label>
+        </td>
+        <td width="20%">
+          <label><b>Année de naissance de coureur : </b></label><br>
+          <input id="cou_nai_cro" type="radio" name="cou_nai_tri" value="croissant" <?php cocherRadio("cou_nai_tri","croissant"); ?>><label for="cou_nai_cro"> Croissant</label><br>
+          <input id="cou_nai_dec" type="radio" name="cou_nai_tri" value="decroissant" <?php cocherRadio("cou_nai_tri","decroissant"); ?>><label for="cou_nai_dec"> Décroissant</label><br>
+          <input id="cou_nai_npt" type="radio" name="cou_nai_tri" value="null" <?php cocherRadio("cou_nai_tri","null"); ?>><label for="cou_nai_npt"> Ne pas trier</label>
+        </td>
+        <td width="20%">
+          <label><b>Année de première participation de coureur : </b></label><br>
+          <input id="cou_par_cro" type="radio" name="cou_par_tri" value="croissant" <?php cocherRadio("cou_par_tri","croissant"); ?>><label for="cou_par_cro"> Croissant</label><br>
+          <input id="cou_par_dec" type="radio" name="cou_par_tri" value="decroissant" <?php cocherRadio("cou_par_tri","decroissant"); ?>><label for="cou_par_dec"> Décroissant</label><br>
+          <input id="cou_par_npt" type="radio" name="cou_par_tri" value="null" <?php cocherRadio("cou_par_tri","null"); ?>><label for="cou_par_npt"> Ne pas trier</label>
+        </td>
+        <td width="20%">
+          <label><b>Nationalité de coureur : </b></label><br>
+          <input id="cou_nat_cro" type="radio" name="cou_nat_tri" value="croissant" <?php cocherRadio("cou_nat_tri","croissant"); ?>><label for="cou_nat_cro"> Croissant</label><br>
+          <input id="cou_nat_dec" type="radio" name="cou_nat_tri" value="decroissant" <?php cocherRadio("cou_nat_tri","decroissant"); ?>><label for="cou_nat_dec"> Décroissant</label><br>
+          <input id="cou_nat_npt" type="radio" name="cou_nat_tri" value="null" <?php cocherRadio("cou_nat_tri","null"); ?>><label for="cou_nat_npt"> Ne pas trier</label>
+        </td>
+      </tr>
+    </table></center><br>
+
+    <center><input type="submit" value="Trier" onclick="selectAll();"></center><br>
+  </form>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+</body>
+
+
+</html>

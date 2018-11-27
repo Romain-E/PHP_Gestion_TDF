@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <title>Créer un coureur</title>
+
+
+</head>
+
+<body>
+
+
+<header >
+    <h3 class="page-title" style="text-align:center;">Créer un coureur</h3>
+</header>
+
+<form action="" method="post" enctype="application/x-www-form-urlencoded">
+
+    <label>Nom : </label>
+    <input type="text" name="cou_nom" value="<?php verifierText("cou_nom"); ?>">
+    <br><br>
+    <label>Prenom : </label>
+    <input type="text" name="cou_pre" value="<?php verifierText("cou_pre"); ?>">
+    <br><br>
+    <label>Année de naissance : </label>
+    <input type="text" name="cou_nai" value="<?php verifierText("cou_nai"); ?>">
+    <br><br>
+    <label>Année de 1ère participation : </label>
+    <input type="text" name="cou_apr" value="<?php verifierText("cou_apr"); ?>">
+    <br><br>
+	<label>Nationalité : </label>
+    <select name="cou_nat">
+        <?php	
+			$req = 'select CODE_CIO, NOM from TDF_NATION order by NOM';
+			$cur = PreparerRequeteOCI($conn, $req);
+			$res = ExecuterRequeteOCI($cur);
+			$nbLignes = LireDonneesOCI1($cur, $tab);
+
+
+        for ($i=0;$i<$nbLignes;$i++) {
+			echo '<option value="'.$tab[$i]["CODE_CIO"].'"';
+			if(isset($_POST['cou_nat']) && $_POST['cou_nat'] == $tab[$i]["CODE_CIO"])
+				echo 'selected';
+			echo '>'.$tab[$i]['NOM'].'</option>';
+        }
+
+        ?>
+    </select>
+    <br><br>
+
+    <input class="button" type="submit" value="Créer ce coureur">
+</form>
+
+</body>
+</html>

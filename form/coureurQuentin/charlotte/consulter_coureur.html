@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+
+    <div id = "demo">
+  <title>Consulter un coureur</title>
+
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript">
+
+      function suppr(actual_num_cour){
+
+          var xhttp = new XMLHttpRequest();
+          //la fonction se lance quand la requete xml est finie et OK
+          xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                  document.getElementById("demo").innerHTML =
+                      this.responseText;
+              }
+          };
+          xhttp.open("POST", "consulter_coureur.php", true);
+          xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          xhttp.send("actual_num_cour="+actual_num_cour);
+
+      }
+
+
+  </script>
+
+</head>
+
+<body>
+
+  <header >
+    <h3 class="page-title" style="text-align:center;">Consulter un coureur</h3>
+  </header>
+  
+  <form action="consulter_coureur.php" method="post" enctype="application/x-www-form-urlencoded">
+	<label>Nom recherché : </label><input type="text" name="cou_nom_recherche">
+	
+	<input type="submit" value="Chercher">
+  </form>
+  
+  <form action="consulter_coureur.php" method="post" enctype="application/x-www-form-urlencoded">
+	<h5>TRIER PAR :</h5>
+	<label>Numéro de coureur : </label><br>
+	<label>Croissant</label><input type="radio" name="cou_num_tri" value="croissant">
+	<label>Décroissant</label><input type="radio" name="cou_num_tri" value="decroissant">
+	<label>Ne pas trier</label><input type="radio" name="cou_num_tri" value="null">
+	
+	<br><br><label>Nom de coureur : </label><br>
+	<label>Croissant</label><input type="radio" name="cou_nom_tri" value="croissant">
+	<label>Décroissant</label><input type="radio" name="cou_nom_tri" value="decroissant">
+	<label>Ne pas trier</label><input type="radio" name="cou_nom_tri" value="null">
+	
+	<br><br><label>Prenom de coureur : </label><br>
+	<label>Croissant</label><input type="radio" name="cou_pre_tri" value="croissant">
+	<label>Décroissant</label><input type="radio" name="cou_pre_tri" value="decroissant">
+	<label>Ne pas trier</label><input type="radio" name="cou_pre_tri" value="null">
+	
+	<br><br><label>Année de naissance de coureur : </label><br>
+	<label>Croissant</label><input type="radio" name="cou_nai_tri" value="croissant">
+	<label>Décroissant</label><input type="radio" name="cou_nai_tri" value="decroissant">
+	<label>Ne pas trier</label><input type="radio" name="cou_nai_tri" value="null">
+	
+	<br><br><label>Année de première participation de coureur : </label><br>
+	<label>Croissant</label><input type="radio" name="cou_par_tri" value="croissant">
+	<label>Décroissant</label><input type="radio" name="cou_par_tri" value="decroissant">
+	<label>Ne pas trier</label><input type="radio" name="cou_par_tri" value="null">
+	
+	<br><br><label>Nationalité de coureur : </label><br>
+	<label>Croissant</label><input type="radio" name="cou_nat_tri" value="croissant">
+	<label>Décroissant</label><input type="radio" name="cou_nat_tri" value="decroissant">
+	<label>Ne pas trier</label><input type="radio" name="cou_nat_tri" value="null">
+	
+	<br><br><input type="submit" value="Trier">
+  </form>
+
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+  <script type="text/javascript" src="script.js"></script>
+
+  <title>Créer un sponsor</title>
+</head>
+
+<body style="background-color:#d8d4d4;">
+  <?php include('/users/21700957/www-dev/etudiant/TravauxSecretDEtat/Projet/form/inc/navbar.php'); ?>
+
+
+  <header><br>
+    <h3 class="page-title" style="text-align:center;">Créer un sponsor</h3>
+  </header><br>
+
+  <form action="creer_sponsor.php" method="post" enctype="application/x-www-form-urlencoded">
+
+	<label>Nom du sponsor : </label>
+    <input type="text" name="spo_nom" value="<?php verifierText("spo_nom"); ?>">
+    <br><br>
+	<label>Nom abrégé du sponsor (3 lettres) : </label>
+    <input type="text" name="spo_nab" value="<?php verifierText("spo_nab"); ?>">
+    <br><br>
+	<label>Nationalité : </label>
+    <select name="spo_nat">
+        <?php
+			$req1 = 'select CODE_CIO, NOM from TDF_NATION order by NOM';
+			$cur1 = PreparerRequeteOCI($conn, $req1);
+			$res1 = ExecuterRequeteOCI($cur1);
+			$nbLignes1 = LireDonneesOCI1($cur1, $tab1);
+
+
+        for ($i=0;$i<$nbLignes1;$i++) {
+			echo '<option value="'.$tab1[$i]["CODE_CIO"].'"';
+			if(isset($_POST['cou_nat']) && $_POST['cou_nat'] == $tab1[$i]["CODE_CIO"])
+				echo 'selected';
+			echo '>'.$tab1[$i]['NOM'].'</option>';
+        }
+
+        ?>
+    </select>
+    <br><br>
+	<label>Année de début du sponsor : </label>
+    <input type="number" name="spo_ann" value ="2018" value="<?php verifierText("spo_ann"); ?>">
+	<br><br>
+	<label>Saisir une équipe à lier avec ce sponsor : </label>
+    <select name="spo_equ">
+        <?php
+			$req2 = 'select nom, n_equipe
+					from tdf_sponsor
+          join tdf_equipe using (n_equipe)
+					where (n_equipe, n_sponsor) in
+					(
+					select n_equipe, max(n_sponsor)
+					from tdf_sponsor
+					having max(n_equipe) = n_equipe
+					group by n_equipe
+					)
+          and annee_disparition is null
+          order by nom';
+			$cur2 = PreparerRequeteOCI($conn, $req2);
+			$res2 = ExecuterRequeteOCI($cur2);
+			$nbLignes2 = LireDonneesOCI1($cur2, $tab2);
+
+
+        for ($i=0;$i<$nbLignes2;$i++) {
+			echo '<option value="'.$tab2[$i]["N_EQUIPE"].'"';
+			if(isset($_POST['spo_equ']) && $_POST['spo_equ'] == $tab2[$i]["NOM"])
+				echo 'selected';
+			echo '>'.$tab2[$i]['NOM'].'</option>';
+        }
+
+        ?>
+    </select>
+	<!-- <input type="button" value="Créer équipe" onclick="javascript:location.href='../equipe/creer_equipe.php'"> -->
+    <br><br>
+
+    <input class="button" type="submit" value="Créer ce sponsor" name="EN">
+  </form>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+</body>
+</html>
